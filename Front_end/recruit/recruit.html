@@ -17,6 +17,18 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" 
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
+    <style>
+        .carousel-item {
+            height: 300px;
+        }
+
+        .carousel-item > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -65,15 +77,45 @@
         </ul>
     </nav>
 
-    <section class="container">
-        <!-- 채용공고 파트 소개 -->
-        <article>
 
-        </article>
+    <!-- 채용공고 파트 소개 -->
+    <!-- carousel -->
+    <div id="intro" class="carousel slide" data-ride="carousel">
+        <!-- indicators -->
+        <ul class="carousel-indicators">
+            <li data-target="#intro" data-slide-to="0" class="active"></li>
+            <li data-target="#intro" data-slide-to="1"></li>
+            <li data-target="#intro" data-slide-to="2"></li>
+        </ul>
+
+        <!-- slideshow -->
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../resources/recruit_img1.png" alt="img1">
+            </div>
+            <div class="carousel-item">
+                <img src="../resources/recruit_img2.png" alt="img2">
+            </div>
+            <div class="carousel-item">
+                <img src="../resources/recruit_img3.png" alt="img3">
+            </div>
+        </div>
+
+        <!-- left and right controls -->
+        <a href="#intro" class="carousel-control-prev" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a href="#intro" class="carousel-control-next" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    
+
+    <section class="container">
 
         <!-- 채용 진행과정 -->
         <article>
-
+            
         </article>
 
         <!-- 공고 리스트 table -->
