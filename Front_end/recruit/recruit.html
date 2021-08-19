@@ -33,6 +33,24 @@
             object-fit: cover;
         }
 
+        .jumbotron {
+            background: #fff;
+        }
+        .jumbotron .jumbotron-head {
+            float: left;
+            width: 45%;
+        }
+        .jumbotron .jumbotron-head > h3 {
+            font-weight: bold;
+        }
+        .jumbotron .jumbotron-body {
+            float: left;
+            width: 55%;
+        }
+        .jumbotron > img {
+            clear: both;
+            width: 100%;
+        }
     </style>
 
 </head>
@@ -116,10 +134,25 @@
         </a>
     </div>
     
+    <!-- 채용 진행과정 일단 jumbotron과 이미지로 대체-->
+    <div class="container-lg mt-5">
+        <div class="jumbotron">
+            <div class="jumbotron-head">
+                <h3>더 나은 세상을 함께 <br> 만들어갈 당신을 기다립니다</h3>
+            </div>
+            <div class="jumbotron-body">
+                <ul>
+                    <li>상황에 따라 1,2차 면접이 1day 면접으로 진행될 수 있습니다.</li>
+                    <li>개발 직군의 경우 '코딩 테스트'를 진행합니다.</li>
+                    <li>직무에 따라 면접에 과제 발표가 포함될 수 있습니다.</li>
+                    <li>2차 면접 합격 시 평판 조회가 진행될 수 있습니다.</li>
+                    <li>채용 완료 시 공고가 조기 마감될 수 있습니다.</li>
+                </ul>
+            </div>
+            <img class="rounded" src="../resources/recruit_process.png" alt="recruit_process">
+        </div>
 
-    <section class="container mt-5">
-
-        <!-- 채용 진행과정 -->
+        <!-- 채용 진행과정 step 구현 시도 -->
         <article>
             <!-- <ul class="steps">
                 <li class="step">
@@ -141,8 +174,11 @@
                     </div>
                 </li>
             </ul> -->
-
         </article>
+    </div>
+
+    <section class="container mt-5">
+        
 
         <!-- 공고 리스트 table -->
         <article>
