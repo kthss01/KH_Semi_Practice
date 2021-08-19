@@ -36,25 +36,22 @@
         .jumbotron {
             background: #fff;
         }
-        .jumbotron .jumbotron-head {
-            float: left;
-            width: 45%;
-        }
-        .jumbotron .jumbotron-head > h3 {
+        #jumbotron-head > h2 {
             font-weight: bold;
         }
-        .jumbotron .jumbotron-body {
-            float: left;
-            width: 55%;
-        }
-        .jumbotron > img {
-            clear: both;
-            width: 100%;
+        #jumbotron-body li {
+            font-size: 0.85rem;
+            font-weight: bold;
         }
 
         #recruit_category button {
             margin: 0.1rem;
             border-radius: 5rem;
+        }
+
+        footer > nav {
+            border-top: 3px solid #d3d3d3;
+            border-bottom: 3px solid #d3d3d3;
         }
     </style>
 
@@ -142,17 +139,21 @@
     <!-- 채용 진행과정 일단 jumbotron과 이미지로 대체-->
     <div class="container-lg mt-5">
         <div class="jumbotron">
-            <div class="jumbotron-head">
-                <h3>더 나은 세상을 함께 <br> 만들어갈 당신을 기다립니다</h3>
-            </div>
-            <div class="jumbotron-body">
-                <ul>
-                    <li>상황에 따라 1,2차 면접이 1day 면접으로 진행될 수 있습니다.</li>
-                    <li>개발 직군의 경우 '코딩 테스트'를 진행합니다.</li>
-                    <li>직무에 따라 면접에 과제 발표가 포함될 수 있습니다.</li>
-                    <li>2차 면접 합격 시 평판 조회가 진행될 수 있습니다.</li>
-                    <li>채용 완료 시 공고가 조기 마감될 수 있습니다.</li>
-                </ul>
+            <h5>PROCESS</h5>
+            <br>
+            <div class="row mb-5">
+                <div id="jumbotron-head" class="col-md-6">
+                    <h2>더 나은 세상을 함께 <br> 만들어갈 당신을 기다립니다</h2>
+                </div>
+                <div id="jumbotron-body" class="col-md-6">
+                    <ul>
+                        <li>상황에 따라 1,2차 면접이 1day 면접으로 진행될 수 있습니다.</li>
+                        <li>개발 직군의 경우 '코딩 테스트'를 진행합니다.</li>
+                        <li>직무에 따라 면접에 과제 발표가 포함될 수 있습니다.</li>
+                        <li>2차 면접 합격 시 평판 조회가 진행될 수 있습니다.</li>
+                        <li>채용 완료 시 공고가 조기 마감될 수 있습니다.</li>
+                    </ul>
+                </div>
             </div>
             <img class="rounded" src="../resources/recruit_process.png" alt="recruit_process">
         </div>
@@ -292,12 +293,55 @@
         </article>
     </section>
 
-    <footer>
+    <footer class="container-fluid">
         <!-- navbar -->
+        <nav class="navbar navbar-expand-md navbar-light mb-5">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">정책.약관</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">개인정보처리방침</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="navbar-item">
+                    <a href="#" class="nav-link">공지사항</a>
+                </li>
+
+                <li class="navbar-item">
+                    <a href="#" class="nav-link">문의사항</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="row">
+            <div class="col-md-3">
+                <button class="btn btn-dark ml-4" style="width: 200px;">
+                    <i class="far fa-question-circle"></i>
+                    문의하기</button>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h6>KH(주)| 대표이사 ooo | 사업자 등록번호  000-00-000000</h6>
+                서울특별시 강남구 강남구 테헤란로14길 6
+            </div>
+            
+        </div>
+        <div class="media ml-3">
+            <img src="../resources/support_icon.png" alt="support_icon">
+            <div class="media-body">
+                <b>고객센터 000-0000</b><br>
+                <small>상담 가능 시간 : 평일 오전 9시 ~ 오후 6시 <br>
+                    (주말, 공휴일 제외)</small>
+            </div>
+        </div>
+        <!-- 문의하기 버튼 -->
+        <!-- 주소 및 사업자 등록번호 -->
+        <!-- 고객센터 -->
     </footer>
 
-    <!-- 관리자 로그인 modal -->
-    <!-- forms (login) -->
     <!-- 공고 등록 modal -->
     <!-- forms -->
     <!-- dropdowns -->
