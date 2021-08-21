@@ -25,7 +25,7 @@
 
 <body>
     <!-- navbar -->
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
         <!-- brand -->
         <a href="#" class="navbar-brand">사이트 이름</a>
 
@@ -101,7 +101,7 @@
     <section class="container my-5">
         <!-- 공고 내용 -->
         <article class="container border p-5">
-            <div class="text-info text-right mb-3">
+            <div id="recruitDate" class="text-info text-right mb-3">
                 <!-- 공고 종류 -->
                 <span class="badge badge-info">일반채용</span>
                 <!-- 공고 기간 -->
@@ -111,8 +111,10 @@
             </div>
 
             <!-- 공고명 -->
-            <h2>자바 백엔드 개발자 (경력)</h2>
-            <hr>
+            <div id="recruitName">
+                <h2>자바 백엔드 개발자 (경력)</h2>
+                <hr>
+            </div>
 
             <!-- 소개 -->
             <div id="recruitContent1" class="my-5">
