@@ -21,11 +21,26 @@
     <!-- recruit custom css -->
     <link rel="stylesheet" href="../css/recruit_custom.css">
 
+    <style>
+        body {
+            position: relative;
+        }
+
+        #myScrollspy ul.nav-pills {
+            top: 360px;
+            position: fixed;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
     <!-- navbar -->
-    <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+    <nav id="navbar" class="navbar navbar-expand-md bg-dark navbar-dark">
         <!-- brand -->
         <a href="#" class="navbar-brand">사이트 이름</a>
 
@@ -90,131 +105,166 @@
         </div>
 
         <!-- left and right controls -->
-        <a href="#intro" class="carousel-control-prev" data-slide="prev">
+        <!-- <a href="#intro" class="carousel-control-prev" data-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </a>
         <a href="#intro" class="carousel-control-next" data-slide="next">
             <span class="carousel-control-next-icon"></span>
-        </a>
+        </a> -->
     </div>
 
-    <section class="container my-5">
-        <!-- 공고 내용 -->
-        <article class="container border p-5">
-            <div id="recruitDate" class="text-info text-right mb-3">
-                <!-- 공고 종류 -->
-                <span class="badge badge-info">일반채용</span>
-                <!-- 공고 기간 -->
-                <span>
-                    2021.07.28(수)~2021.08.31(화)
-                </span>
+    <section class="container-fluid my-5">
+        <!-- scrollspy -->
+        <div class="row">
+            <div class="col-1">
+                <nav id="myScrollspy">
+                    <ul class="nav nav-pills flex-column border bg-light">
+                        <li class="nav-item">
+                            <a href="#recruitName" class="nav-link">공고명</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#recruitContent1" class="nav-link">소개</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#recruitContent2" class="nav-link">주요 업무</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#recruitContent3" class="nav-link">자격 조건</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#recruitContent4" class="nav-link">우대 사항</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#recruitContent5" class="nav-link">혜택 및 복지</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#recruitContent6" class="nav-link">기타 사항</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
-            <!-- 공고명 -->
-            <div id="recruitName">
-                <h2>자바 백엔드 개발자 (경력)</h2>
-                <hr>
+            <div class="col-11">
+                <!-- 공고 내용 -->
+                <article class="container border p-5">
+                    <div id="recruitDate" class="text-info text-right mb-3">
+                        <!-- 공고 종류 -->
+                        <span class="badge badge-info">일반채용</span>
+                        <!-- 공고 기간 -->
+                        <span>
+                            2021.07.28(수)~2021.08.31(화)
+                        </span>
+                    </div>
+        
+                    <!-- 공고명 -->
+                    <div id="recruitName">
+                        <h2>자바 백엔드 개발자 (경력)</h2>
+                        <hr>
+                    </div>
+        
+                    <!-- 소개 -->
+                    <div id="recruitContent1" class="my-5">
+                        <h6 class="mb-4 font-weight-bold">[소개]</h6>
+                        와디즈의 자바백엔드 개발자들은 Java 와 MySQL을 기반으로 와디즈펀딩 서비스를 개발합니다. <br>
+                        <br>
+                        기획자, 디자이너, QA, 프론트엔드 개발자들과 긴밀하게 소통하며 <br>
+                        <br>
+                        고객에게 더 나은 서비스를 제공하기 위한 방법을 제시합니다.<br>
+                        <br>
+                        급변하는 변화의 물살에 앞서 나가며 좋은 서비스를 잘 설계하고 작은 변화로 필요를 채워주는 등 <br>
+                        <br>
+                        빠른 호흡 전환을 즐기면서 함께 개발하실 분들을 기다립니다.<br>
+                    </div>
+        
+                    <!-- 주요 업무 -->
+                    <div id="recruitContent2" class="my-5">
+                        <h6 class="mb-4 font-weight-bold">[주요 업무]</h6>
+                        • 와디즈 펀딩하기/투자하기/스타트업찾기 웹서비스를 개발합니다. <br>
+                    </div>
+        
+                    <!-- 자격 조건 -->
+                    <div id="recruitContent3" class="my-5">
+                        <h6 class="mb-4 font-weight-bold">[자격 조건]</h6>
+                        • JAVA 및 객체지향 프로그래밍 개발 실무 3년차 이상의 역량을 보유하신 분 <br>
+                        <br>
+                        • Spring 프레임웍을 이용한 Web Application 개발 경험이 3년 이상 있으신 분 <br>
+                        <br>
+                        • MVC framework 기반의 웹 서비스나 RESTful API 개발 경험이 있으신 분 <br>
+                        <br>
+                        • RDBMS(MySQL 등)를 이해하고 비즈니스 데이터를 모델링 해 본 경험이 있으신 분 <br>
+                        <br>
+                        • Unix 기반 OS에서 웹서비스 개발에 필요한 기술을 보유하신 분 <br>
+                        <br>
+                        • 내부 고객과의 커뮤니케이션에 긍정적인 태도로 적극적으로 참여할 수 있는 분 <br>
+                        <br>
+                        • 비즈니스에 대한 이해를 바탕으로 상황에 맞는 장기적 또는 단기 해결책을 적극적으로 제시하고 적용할 수 있는 분 <br>
+                        <br>
+                        • 팀과 함께 성장하기 위해 역량 향상에 노력하며 지식을 공유하는 문화를 좋아하는 분 <br>
+                        <br>
+                        • 테스트 코드를 작성하며 개발하는 것에 부담이 없는 분 <br>
+                    </div>
+        
+                    <!-- 우대 사항 -->
+                    <div id="recruitContent4" class="my-5">
+                        <h6 class="mb-4 font-weight-bold">[우대 사항]</h6>
+                        • HTML5, javascript에 능숙한 분 <br>
+                        <br>
+                        • Confluence/Jira/Git 을 활용한 업무 관리 및 협업 경험이 있는 분 <br>
+                        <br>
+                        • MSA, JPA, Spring Cloud 기반 개발 경험이 있는 분 <br>
+                        <br>
+                        • Elastic Search 활용 경험이 있으신 분 <br>
+                        <br>
+                        • 크라우드펀딩 또는 핀테크 서비스에 대한 경험이 있으신 분 <br>
+                        <br>
+                        • 본인이 갖고 있는 기술을 이용하여 만들어 내는 사회적 가치를 중시하는 분 <br>
+                        <br>
+                        • GitHub/Bitbucket 등에 공개된 소스가 있는 분 <br>
+                    </div>
+        
+                    <!-- 혜택 및 복지 -->
+                    <div id="recruitContent5" class="my-5">
+                        <h6 class="mb-4 font-weight-bold">[혜택 및 복지]</h6>
+                        • 유연근무제, 재택근무제 <br>
+                        <br>
+                        • 3년 근무시 2주 리프레쉬 휴가  <br>
+                        <br>
+                        • 출근셔틀버스  <br>
+                        <br>
+                        • 사내 카페 <br>
+                        <br>
+                        • 무료 스낵바 <br>
+                        <br>
+                        • 피트니스센터 <br>
+                        <br>
+                        • 수면실 <br>
+                        <br>
+                        • 도서무한지원 <br>
+                        <br>
+                        • 건강검진 <br>
+                    </div>
+        
+                    <!-- 기타 사항 -->
+                    <div id="recruitContent6" class="my-5">
+                        <h6 class="mb-4 font-weight-bold">**기타 사항</h6>
+                        1. 지원서 작성 버튼을 클릭하여 지원해주세요.  <br>
+                        <br>
+                        2. 보훈대상자 및 장애인은 관련 법규에 의거하여 우대합니다.  <br>
+                        <br>
+                        3. 경력직은 3개월간 Probation 기간을 거치며 급여는 동일한 수준으로 지급됩니다.  <br>
+                        <br>
+                        <b>4. 채용 시 조기마감 될 수 있습니다. </b><br>
+                    </div>
+                    
+                </article>
+        
+                <div class="d-flex justify-content-center mt-4">
+                    <a href="recruit.html" class="btn btn-dark mx-2" style="width: 150px;">목록</a>
+                    <button class="btn btn-dark mx-2" style="width: 150px;">지원서 작성</button>
+                </div>
             </div>
-
-            <!-- 소개 -->
-            <div id="recruitContent1" class="my-5">
-                와디즈의 자바백엔드 개발자들은 Java 와 MySQL을 기반으로 와디즈펀딩 서비스를 개발합니다. <br>
-                <br>
-                기획자, 디자이너, QA, 프론트엔드 개발자들과 긴밀하게 소통하며 <br>
-                <br>
-                고객에게 더 나은 서비스를 제공하기 위한 방법을 제시합니다.<br>
-                <br>
-                급변하는 변화의 물살에 앞서 나가며 좋은 서비스를 잘 설계하고 작은 변화로 필요를 채워주는 등 <br>
-                <br>
-                빠른 호흡 전환을 즐기면서 함께 개발하실 분들을 기다립니다.<br>
-            </div>
-
-            <!-- 주요 업무 -->
-            <div id="recruitContent2" class="my-5">
-                <h6 class="mb-4 font-weight-bold">[주요 업무]</h6>
-                • 와디즈 펀딩하기/투자하기/스타트업찾기 웹서비스를 개발합니다. <br>
-            </div>
-
-            <!-- 자격 조건 -->
-            <div id="recruitContent3" class="my-5">
-                <h6 class="mb-4 font-weight-bold">[자격 조건]</h6>
-                • JAVA 및 객체지향 프로그래밍 개발 실무 3년차 이상의 역량을 보유하신 분 <br>
-                <br>
-                • Spring 프레임웍을 이용한 Web Application 개발 경험이 3년 이상 있으신 분 <br>
-                <br>
-                • MVC framework 기반의 웹 서비스나 RESTful API 개발 경험이 있으신 분 <br>
-                <br>
-                • RDBMS(MySQL 등)를 이해하고 비즈니스 데이터를 모델링 해 본 경험이 있으신 분 <br>
-                <br>
-                • Unix 기반 OS에서 웹서비스 개발에 필요한 기술을 보유하신 분 <br>
-                <br>
-                • 내부 고객과의 커뮤니케이션에 긍정적인 태도로 적극적으로 참여할 수 있는 분 <br>
-                <br>
-                • 비즈니스에 대한 이해를 바탕으로 상황에 맞는 장기적 또는 단기 해결책을 적극적으로 제시하고 적용할 수 있는 분 <br>
-                <br>
-                • 팀과 함께 성장하기 위해 역량 향상에 노력하며 지식을 공유하는 문화를 좋아하는 분 <br>
-                <br>
-                • 테스트 코드를 작성하며 개발하는 것에 부담이 없는 분 <br>
-            </div>
-
-            <!-- 우대 사항 -->
-            <div id="recruitContent4" class="my-5">
-                <h6 class="mb-4 font-weight-bold">[우대 사항]</h6>
-                • HTML5, javascript에 능숙한 분 <br>
-                <br>
-                • Confluence/Jira/Git 을 활용한 업무 관리 및 협업 경험이 있는 분 <br>
-                <br>
-                • MSA, JPA, Spring Cloud 기반 개발 경험이 있는 분 <br>
-                <br>
-                • Elastic Search 활용 경험이 있으신 분 <br>
-                <br>
-                • 크라우드펀딩 또는 핀테크 서비스에 대한 경험이 있으신 분 <br>
-                <br>
-                • 본인이 갖고 있는 기술을 이용하여 만들어 내는 사회적 가치를 중시하는 분 <br>
-                <br>
-                • GitHub/Bitbucket 등에 공개된 소스가 있는 분 <br>
-            </div>
-
-            <!-- 혜택 및 복지 -->
-            <div id="recruitContent5" class="my-5">
-                <h6 class="mb-4 font-weight-bold">[혜택 및 복지]</h6>
-                • 유연근무제, 재택근무제 <br>
-                <br>
-                • 3년 근무시 2주 리프레쉬 휴가  <br>
-                <br>
-                • 출근셔틀버스  <br>
-                <br>
-                • 사내 카페 <br>
-                <br>
-                • 무료 스낵바 <br>
-                <br>
-                • 피트니스센터 <br>
-                <br>
-                • 수면실 <br>
-                <br>
-                • 도서무한지원 <br>
-                <br>
-                • 건강검진 <br>
-            </div>
-
-            <!-- 기타 사항 -->
-            <div id="recruitContent6" class="my-5">
-                <h6 class="mb-4 font-weight-bold">**기타 사항</h6>
-                1. 지원서 작성 버튼을 클릭하여 지원해주세요.  <br>
-                <br>
-                2. 보훈대상자 및 장애인은 관련 법규에 의거하여 우대합니다.  <br>
-                <br>
-                3. 경력직은 3개월간 Probation 기간을 거치며 급여는 동일한 수준으로 지급됩니다.  <br>
-                <br>
-                <b>4. 채용 시 조기마감 될 수 있습니다. </b><br>
-            </div>
-            
-        </article>
-
-        <div class="d-flex justify-content-center mt-4">
-            <a href="recruit.html" class="btn btn-dark mx-2" style="width: 150px;">목록</a>
-            <button class="btn btn-dark mx-2" style="width: 150px;">지원서 작성</button>
         </div>
+
     </section>
 
     <footer class="container-fluid" style="margin-bottom: 50px;">
