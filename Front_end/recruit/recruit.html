@@ -14,20 +14,25 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- fontawesome bootstrap 4 용 icon -->
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" 
-    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
-    <!-- bootsrap-steps -->
+    <!-- bootstrap-steps -->
     <!-- <link rel="stylesheet" href="../css/bootstrap-steps.min.css"> -->
     <!-- cdn -->
     <!-- <link  href="https://cdn.jsdelivr.net/npm/bootstrap-steps@%5E1.0/dist/bootstrap-steps.min.css" rel="stylesheet"> -->
+
+    <!-- bootstarp4 date range picker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <style>
         .carousel-item {
             height: 300px;
         }
 
-        .carousel-item > img {
+        .carousel-item>img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -36,9 +41,11 @@
         .jumbotron {
             background: #fff;
         }
-        #jumbotron-head > h2 {
+
+        #jumbotron-head>h2 {
             font-weight: bold;
         }
+
         #jumbotron-body li {
             font-size: 0.85rem;
             font-weight: bold;
@@ -59,7 +66,6 @@
             bottom: 0;
             visibility: show;
         }
-
     </style>
 
 </head>
@@ -142,7 +148,7 @@
             <span class="carousel-control-next-icon"></span>
         </a>
     </div>
-    
+
     <!-- 채용 진행과정 일단 jumbotron과 이미지로 대체-->
     <div class="container-lg mt-5">
         <div class="jumbotron">
@@ -235,7 +241,7 @@
                         <td class="table-recruit-kind">일반채용</td>
                         <td class="table-recruit-date">2021.07.28 ~ 2021.08.31</td>
                     </tr>
-                
+
                     <tr>
                         <td class="table-recruit-category">[개발직군]</td>
                         <td class="table-recruit-name">프론트엔드 개발자 (신입)</td>
@@ -298,13 +304,15 @@
 
             </ul>
 
-            <button id="recruit_create_btn" class="btn btn-dark">공고 등록</button>
+            <button type="button" id="recruit_create_btn" class="btn btn-dark" data-toggle="modal"
+                data-target="#recruit_create_modal">공고 등록</button>
         </article>
     </section>
 
     <footer class="container-fluid" style="margin-bottom: 50px;">
         <!-- navbar -->
-        <nav class="navbar navbar-expand-md navbar-light mb-5"  style="border-top: 3px solid rgba(0, 0, 0, .5); border-bottom: 3px solid rgba(0, 0, 0, .5);  padding-left: 100px; padding-right:100px;" >
+        <nav class="navbar navbar-expand-md navbar-light mb-5"
+            style="border-top: 3px solid rgba(0, 0, 0, .5); border-bottom: 3px solid rgba(0, 0, 0, .5);  padding-left: 100px; padding-right:100px;">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a href="#" class="nav-link">정책.약관</a>
@@ -326,18 +334,21 @@
         </nav>
 
         <div class="row">
+            <!-- 문의하기 버튼 -->
             <div class="col-md-3">
                 <button class="btn btn-dark ml-4" style="width: 200px;">
                     <i class="far fa-question-circle"></i>
                     문의하기</button>
             </div>
             <div class="col-md-3"></div>
+            <!-- 주소 및 사업자 등록번호 -->
             <div class="col-md-6">
-                <b>KH(주)| 대표이사 ooo | 사업자 등록번호  000-00-000000</b> <br>
+                <b>KH(주)| 대표이사 ooo | 사업자 등록번호 000-00-000000</b> <br>
                 <small>서울특별시 강남구 강남구 테헤란로14길 6</small>
             </div>
-            
+
         </div>
+        <!-- 고객센터 -->
         <div class="media ml-3">
             <img src="../resources/support_icon.png" alt="support_icon">
             <div class="media-body">
@@ -346,14 +357,125 @@
                     (주말, 공휴일 제외)</small>
             </div>
         </div>
-        <!-- 문의하기 버튼 -->
-        <!-- 주소 및 사업자 등록번호 -->
-        <!-- 고객센터 -->
     </footer>
 
     <!-- 공고 등록 modal -->
+    <div class="modal fade" id="recruit_create_modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">공고 등록</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="recruitCreate.do">
+                        <!-- 공고 시작일 ~ 공고 종료일 달력 선택 -->
+                        <!-- <form-group>
+                            <label for="recruitStartDate">공고 시작일</label>
+                            <input type="date" class="form-control" id="recruitStartDate">
+                            <label for="recruitEndDate">공고 종료일</label>
+                            <input type="date" class="form-control" id="recruitEndDate">
+                        </form-group> -->
+
+                        <!-- <input type="text" class="form-control" id="daterange" name="daterange"/> -->
+                        <div id="daterange" class="form-control">
+                            <i class="fa fa-calendar"></i>&nbsp;
+                            <span></span>
+                        </div>
+                        <input type="hidden" id="recruitStartDate" name="recruitStartDate">
+                        <input type="hidden" id="recruitEndDate" name="recruitEndDate">
+
+                        <!-- 공고명 -->
+                        <div class="form-group">
+                            <label for="recruitName">공고명</label>
+                            <input type="text" class="form-control" id="recruitName" placeholder="내용을 입력해주세요">
+                        </div>
+
+                        <!-- 직무구분 -->
+                        <!-- Custom Select Menu -->
+                        <select name="recruitCode" id="recruitCode" class="custom-select">
+                            <option selected>직무구분</option>
+                            <option value="개발직군">개발직군</option>
+                            <option value="신입">신입</option>
+                            <option value="경영지원">경영지원</option>
+                            <option value="신사업">신사업</option>
+                        </select>
+
+                        <!-- 소개 -->
+                        <div class="form-group">
+                            <label for="recruitContent1">소개</label>
+                            <textarea name="recruitContent1" id="recruitContent1" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <!-- 주요 업무 -->
+                        <div class="form-group">
+                            <label for="recruitContent2">주요 업무</label>
+                            <textarea name="recruitContent2" id="recruitContent2" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <!-- 자격 요건 -->
+                        <div class="form-group">
+                            <label for="recruitContent3">자격 요건</label>
+                            <textarea name="recruitContent3" id="recruitContent3" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <!-- 우대 사항 -->
+                        <div class="form-group">
+                            <label for="recruitContent4">우대 사항</label>
+                            <textarea name="recruitContent4" id="recruitContent4" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <!-- 혜택 및 복지 -->
+                        <div class="form-group">
+                            <label for="recruitContent5">혜택 및 복지</label>
+                            <textarea name="recruitContent5" id="recruitContent5" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <!-- 기타 사항 -->
+                        <div class="form-group">
+                            <label for="recruitContent6">기타 사항</label>
+                            <textarea name="recruitContent6" id="recruitContent6" class="form-control" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">등록하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- forms -->
     <!-- dropdowns -->
+
+    <!-- Date Range Picker -->
+    <script>
+        $(function () {
+            const startDate = moment(); // 시작일
+            const endDate = moment().add(30, 'day'); // 종료일 -> 현재 시간 + 30일
+            
+            $('#daterange span').html(startDate.format('YYYY-MM-DD') + ' ~ ' + endDate.format('YYYY-MM-DD'));
+
+            $('#daterange').daterangepicker({
+                //opens: 'right',
+                //drops: 'up',
+                startDate, // 시작일 설정
+                endDate  // 종료일 설정
+            }, function (start, end) {
+                //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                const startDate = start.format('YYYY-MM-DD');
+                const endDate = end.format('YYYY-MM-DD');
+                $('#recruitStartDate').val(startDate);
+                $('#recruitEndDate').val(endDate);
+
+                $('#daterange span').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format('YYYY-MM-DD'));
+            });
+        });
+    </script>
 </body>
 
 </html>
