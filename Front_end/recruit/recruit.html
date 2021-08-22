@@ -230,36 +230,46 @@
                 <tbody>
                     <tr>
                         <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark" href="recruit_content.html">기술 기획 (경력)</a></td>
-                        <td class="table-recruit-kind"><span class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
+                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
+                                href="recruit_content.html">기술 기획 (경력)</a></td>
+                        <td class="table-recruit-kind"><span
+                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
                         <td class="table-recruit-date"><span class="text-secondary">2021.07.28 ~ 2021.08.31</span></td>
                     </tr>
 
                     <tr>
                         <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark" href="recruit_content.html">프론트엔드 개발자 (신입)</a></td>
-                        <td class="table-recruit-kind"><span class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
+                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
+                                href="recruit_content.html">프론트엔드 개발자 (신입)</a></td>
+                        <td class="table-recruit-kind"><span
+                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
                         <td class="table-recruit-date"><span class="text-secondary">2021.08.02 ~ 2021.08.31</span></td>
                     </tr>
 
                     <tr>
                         <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark" href="recruit_content.html">자바 백엔드 개발자 (경력)</a></td>
-                        <td class="table-recruit-kind"><span class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
+                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
+                                href="recruit_content.html">자바 백엔드 개발자 (경력)</a></td>
+                        <td class="table-recruit-kind"><span
+                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
                         <td class="table-recruit-date"><span class="text-secondary">2021.08.02 ~ 2021.08.31</span></td>
                     </tr>
 
                     <tr>
                         <td class="table-recruit-category text-info">[개발직군]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark" href="recruit_content.html">QA 팀장</a></td>
-                        <td class="table-recruit-kind"><span class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
+                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
+                                href="recruit_content.html">QA 팀장</a></td>
+                        <td class="table-recruit-kind"><span
+                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
                         <td class="table-recruit-date"><span class="text-secondary">2021.08.12 ~ 2021.08.31</span></td>
                     </tr>
 
                     <tr>
                         <td class="table-recruit-category text-info">[신사업]</td>
-                        <td class="table-recruit-name"><a class="text-decoration-none text-dark" href="recruit_content.html">와디즈 스토어 사업 개발 팀장</a></td>
-                        <td class="table-recruit-kind"><span class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
+                        <td class="table-recruit-name"><a class="text-decoration-none text-dark"
+                                href="recruit_content.html">와디즈 스토어 사업 개발 팀장</a></td>
+                        <td class="table-recruit-kind"><span
+                                class="border border-info rounded-lg py-1 px-3 text-info">일반채용</span></td>
                         <td class="table-recruit-date"><span class="text-secondary">2021.07.28 ~ 2021.08.31</span></td>
                     </tr>
                 </tbody>
@@ -357,7 +367,7 @@
                 <!-- Modal body -->
                 <div class="modal-body">
 
-                    <form id="recruitCreateForm" action="recruitCreate.do">
+                    <form id="recruit_create_form" action="recruitCreate.do">
 
                         <!-- 공고 시작일 ~ 공고 종료일 달력 선택 -->
                         <!-- <form-group>
@@ -375,60 +385,67 @@
                                 <span></span>
                             </div>
                         </div>
-                        <input form="recruitCreateForm" type="hidden" id="recruitStartDate" name="recruitStartDate">
-                        <input form="recruitCreateForm" type="hidden" id="recruitEndDate" name="recruitEndDate">
+                        <input form="recruit_create_form" type="hidden" id="recruitStartDate" name="recruitStartDate">
+                        <input form="recruit_create_form" type="hidden" id="recruitEndDate" name="recruitEndDate">
 
                         <!-- 공고명 -->
                         <div class="form-group">
                             <label for="recruitName">공고명</label>
-                            <input form="recruitCreateForm" type="text" class="form-control" id="recruitName" placeholder="내용을 입력해주세요">
+                            <input form="recruit_create_form" type="text" class="form-control" id="recruitName"
+                                placeholder="내용을 입력해주세요">
                         </div>
 
                         <!-- 직무구분 -->
                         <!-- Custom Select Menu -->
                         <label>직무구분</label>
-                        <select form="recruitCreateForm" name="recruitCode" id="recruitCode" class="custom-select">
+                        <select form="recruit_create_form" name="recruitCode" id="recruitCode" class="custom-select">
                             <option value="개발직군">개발직군</option>
                             <option value="신입">신입</option>
                             <option value="경영지원">경영지원</option>
                             <option value="신사업">신사업</option>
                         </select>
 
-                  </form>
+                    </form>
 
                     <!-- Nav pills or tabs with Dropdown -->
                     <ul class="nav nav-tabs mt-3" role="tablist">
                         <li class="nav-item">
-                            <a href="#recruitContentTab1" data-toggle="tab" class="text-secondary nav-link active">소개</a>
+                            <a href="#recruitContentTab1" data-toggle="tab"
+                                class="text-secondary nav-link active">소개</a>
                         </li>
                         <li class="nav-item">
                             <a href="#recruitContentTab2" data-toggle="tab" class="text-secondary nav-link">주요 업무</a>
                         </li>
-                        
+
                         <li class="nav-item dropdown">
                             <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">요구 사항</a>
                             <div class="dropdown-menu">
-                                <a href="#recruitContentTab3" data-toggle="tab" class="text-secondary nav-link">자격 요건</a>
-                                <a href="#recruitContentTab4" data-toggle="tab" class="text-secondary nav-link">우대 사항</a>    
+                                <a href="#recruitContentTab3" data-toggle="tab" class="text-secondary nav-link">자격
+                                    요건</a>
+                                <a href="#recruitContentTab4" data-toggle="tab" class="text-secondary nav-link">우대
+                                    사항</a>
                             </div>
-                        </li>                                            
-                        
+                        </li>
+
                         <li class="nav-item dropdown">
-                            <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">혜택 및 기타</a>
+                            <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">혜택 및
+                                기타</a>
                             <div class="dropdown-menu">
-                                <a href="#recruitContentTab5" data-toggle="tab" class="text-secondary nav-link">혜택 및 복지</a>
-                                <a href="#recruitContentTab6" data-toggle="tab" class="text-secondary nav-link">기타 사항</a>
+                                <a href="#recruitContentTab5" data-toggle="tab" class="text-secondary nav-link">혜택 및
+                                    복지</a>
+                                <a href="#recruitContentTab6" data-toggle="tab" class="text-secondary nav-link">기타
+                                    사항</a>
                             </div>
                         </li>
                     </ul>
 
                     <div class="tab-content mt-2">
                         <div id="recruitContentTab1" class="container tab-pane active">
-                             <!-- 소개 -->
+                            <!-- 소개 -->
                             <div class="form-group">
                                 <label for="recruitContent1">소개</label>
-                                <textarea form="recruitCreateForm" name="recruitContent1" id="recruitContent1" class="form-control"
-                                    rows="10"></textarea>
+                                <textarea form="recruit_create_form" name="recruitContent1" id="recruitContent1"
+                                    class="form-control" rows="10"></textarea>
                             </div>
                         </div>
 
@@ -436,17 +453,17 @@
                             <!-- 주요 업무 -->
                             <div class="form-group">
                                 <label for="recruitContent2">주요 업무</label>
-                                <textarea form="recruitCreateForm" name="recruitContent2" id="recruitContent2" class="form-control"
-                                    rows="10"></textarea>
+                                <textarea form="recruit_create_form" name="recruitContent2" id="recruitContent2"
+                                    class="form-control" rows="10"></textarea>
                             </div>
                         </div>
-                        
+
                         <div id="recruitContentTab3" class="container tab-pane fade">
                             <!-- 자격 요건 -->
                             <div class="form-group">
                                 <label for="recruitContent3">자격 요건</label>
-                                <textarea form="recruitCreateForm" name="recruitContent3" id="recruitContent3" class="form-control"
-                                    rows="10"></textarea>
+                                <textarea form="recruit_create_form" name="recruitContent3" id="recruitContent3"
+                                    class="form-control" rows="10"></textarea>
                             </div>
                         </div>
 
@@ -454,8 +471,8 @@
                             <!-- 우대 사항 -->
                             <div class="form-group">
                                 <label for="recruitContent4">우대 사항</label>
-                                <textarea form="recruitCreateForm" name="recruitContent4" id="recruitContent4" class="form-control"
-                                    rows="10"></textarea>
+                                <textarea form="recruit_create_form" name="recruitContent4" id="recruitContent4"
+                                    class="form-control" rows="10"></textarea>
                             </div>
                         </div>
 
@@ -463,8 +480,8 @@
                             <!-- 혜택 및 복지 -->
                             <div class="form-group">
                                 <label for="recruitContent5">혜택 및 복지</label>
-                                <textarea form="recruitCreateForm" name="recruitContent5" id="recruitContent5" class="form-control"
-                                    rows="10"></textarea>
+                                <textarea form="recruit_create_form" name="recruitContent5" id="recruitContent5"
+                                    class="form-control" rows="10"></textarea>
                             </div>
                         </div>
 
@@ -472,8 +489,8 @@
                             <!-- 기타 사항 -->
                             <div class="form-group">
                                 <label for="recruitContent6">기타 사항</label>
-                                <textarea form="recruitCreateForm" name="recruitContent6" id="recruitContent6" class="form-control"
-                                    rows="10"></textarea>
+                                <textarea form="recruit_create_form" name="recruitContent6" id="recruitContent6"
+                                    class="form-control" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
@@ -481,7 +498,7 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" form="recruitCreateForm" class="btn btn-dark mx-auto">등록하기</button>
+                    <button type="submit" form="recruit_create_form" class="btn btn-dark mx-auto">등록하기</button>
                 </div>
             </div>
         </div>
@@ -508,7 +525,7 @@
                 $('#recruitEndDate').val(endDate);
 
                 $('#daterange span').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format(
-                'YYYY-MM-DD'));
+                    'YYYY-MM-DD'));
             });
         });
     </script>
