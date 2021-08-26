@@ -2,9 +2,10 @@ CREATE USER KH_SEMI IDENTIFIED BY KH_SEMI; -- 공용 계정 생성
 GRANT RESOURCE, CONNECT TO KH_SEMI; -- 권한 설정
 GRANT CREATE VIEW TO KH_SEMI; -- View 권한 추가 설정
 
--- Recruit Part DB 구축
+-- Recruit Part DB 구축 -------------------------------------------------------
+------------------------------------------------------------------------------
 
--- Recruitment Table
+-- Recruitment Table ---------------------------------------------------------
 CREATE TABLE RECRUITMENT (
     R_TITLE VARCHAR(30) PRIMARY KEY,
     R_CODE VARCHAR(30),
@@ -36,7 +37,22 @@ COMMENT ON COLUMN RECRUITMENT.R_CONTENT6 IS '기타사항';
 ALTER TABLE RECRUITMENT 
 MODIFY (R_CODE NOT NULL, R_START NOT NULL, R_END NOT NULL, R_TIME NOT NULL);
 
--- RecruitMember Table
+-- 수정사항 공고번호로 PRIMARY KEY 변경
+
+-- 공고명 PRIMARY KEY 삭제, 먼저 RECRUIT_STATUS 에서 R_TITLE 삭제해야함
+ALTER TABLE RECRUITMENT
+DROP CONSTRAINT SYS_C007339; 
+
+-- 공고번호 열 추가 primary key
+ALTER TABLE RECRUITMENT
+ADD R_ID NUMBER PRIMARY KEY;
+
+COMMENT ON COLUMN RECRUITMENT.R_ID IS '공고번호';
+
+-- 공고 테이블 컬럼 순서 변경 -> 안하기로 함 
+ALTER TABLE RECRUITMENT2 RENAME TO RECRUITMENT;
+
+-- RecruitMember Table ---------------------------------------------------------
 CREATE TABLE RECRUIT_MEMBER (
     RM_ID NUMBER PRIMARY KEY,
     RM_NAME VARCHAR(30),
@@ -61,7 +77,7 @@ ALTER TABLE RECRUIT_MEMBER
 MODIFY (RM_NAME NOT NULL, RM_PHONE NOT NULL, RM_EDUCATION NOT NULL, 
 RM_CAREER NOT NULL, RM_EMAIL NOT NULL, RM_PASSWORD NOT NULL);
 
--- RecruitStatus Table
+-- RecruitStatus Table ---------------------------------------------------------
 DROP TABLE RECRUIT_STATUS;
 
 CREATE TABLE RECRUIT_STATUS (
@@ -90,7 +106,18 @@ RENAME CONSTRAINT FK_RS_ID TO FK_RS_RM_ID;
 COMMENT ON COLUMN RECRUIT_STATUS.R_TITLE IS '공고명';
 COMMENT ON COLUMN RECRUIT_STATUS.RM_ID IS '지원자번호';
 
--- Attachment Table
+-- 수정사항 RECRUIT_STATUS 공고번호로 외래키 추가
+-- RECRUIT_STATUS 공고명 제거
+ALTER TABLE RECRUIT_STATUS
+DROP COLUMN R_TITLE CASCADE CONSTRAINTS;
+-- RECRUIT_STATUS 공고번호 외래키로 추가
+ALTER TABLE RECRUIT_STATUS
+ADD R_ID NUMBER
+ADD CONSTRAINT FK_R_ID FOREIGN KEY(R_ID) REFERENCES RECRUITMENT(R_ID);
+
+COMMENT ON COLUMN RECRUIT_STATUS.R_ID IS '공고번호';
+
+-- Attachment Table ---------------------------------------------------------
 CREATE TABLE ATTACHMENT (
     FILE_NO NUMBER PRIMARY KEY,
     REF_NO NUMBER,
@@ -108,7 +135,7 @@ COMMENT ON COLUMN ATTACHMENT.UPLOAD_DATE IS '업로드일';
 COMMENT ON COLUMN ATTACHMENT.FILE_PATH IS '저장폴더경로';
 
 
--- Portfolio Table
+-- Portfolio Table ---------------------------------------------------------
 DROP TABLE PORTFOLIO;
 
 CREATE TABLE PORTFOLIO (
@@ -126,3 +153,62 @@ COMMENT ON COLUMN PORTFOLIO.RM_ID IS '지원자번호';
 CREATE SEQUENCE SEQ_RM_NO;
 CREATE SEQUENCE SEQ_RS_NO;
 CREATE SEQUENCE SEQ_P_NO;
+CREATE SEQUENCE SEQ_R_ID;
+
+-- 시퀀스 이름 NO -> ID로 변경
+RENAME SEQ_RS_NO TO SEQ_RS_ID;
+RENAME SEQ_RM_NO TO SEQ_RM_ID;
+
+-- 시퀀스 초기화 방법
+-- 삭제 후 생성
+DROP SEQUENCE SEQ_P_NO;
+CREATE SEQUENCE SEQ_P_NO;
+
+-- 권한 없을 때 -> 안됨 뭔가 문제있는듯
+--SELECT SEQ_P_NO.NEXTVAL FROM DUAL; -- 3까지 바꿈
+---- 시퀀스 현재 값 확인
+--SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'SEQ_P_NO';
+---- cache있으면 CURRVAL과 차이남 CURRVAL로 조회하는게 좋음
+--SELECT SEQ_P_NO.CURRVAL FROM DUAL;
+---- 시퀀스의 INCREMENT를 현재 값 - 1만큼 빼도록 설정 (LAST_NUMBER가 현재값 : 21, CURRVAL : 3)
+--ALTER SEQUENCE SEQ_P_NO INCREMENT BY -2; -- 현재값3이면 -2
+---- 시퀀스에서 다음 값 가져오기
+--SELECT SEQ_P_NO.NEXTVAL FROM DUAL;
+---- 시퀀스의 증가값 복구
+--ALTER SEQUENCE SEQ_P_NO.INCREMENT BY 1;
+
+-- 기타
+-- 오라클 버전 확인
+SELECT * FROM PRODUCT_COMPONENT_VERSION;
+
+-- DML 작성 --------------------------------------------------------------------
+
+-- 공고 등록 insertRecruitment
+INSERT INTO RECRUITMENT VALUES 
+('title', 'code', SYSDATE, SYSDATE, 'time', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', SEQ_R_ID.NEXTVAL);
+
+-- INSERT INTO RECRUITMENT VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, SEQ_R_ID.NEXTVAL);
+
+SELECT * FROM RECRUITMENT;
+DELETE FROM RECRUITMENT;
+DROP SEQUENCE SEQ_R_ID;
+CREATE SEQUENCE SEQ_R_ID;
+
+-- 공고 지원 등록
+INSERT INTO RECRUIT_MEMBER VALUES
+(SEQ_RM_ID.NEXTVAL, 'name', 'phone', 'education', 'career', 'email', 'password');
+
+SELECT * FROM RECRUIT_MEMBER;
+
+DELETE FROM RECRUIT_MEMBER;
+DROP SEQUENCE SEQ_RM_ID;
+CREATE SEQUENCE SEQ_RM_ID;
+
+-- 공고 지원자 첨부파일 추가
+
+-- 공고 조회
+-- 공고 지원자 첨부파일 조회
+
+-- 추후 구현 필요한거
+-- 공고에 공고 지원자 등록
+-- 공고에 등록한 공고 지원자 조회
