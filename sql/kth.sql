@@ -146,7 +146,8 @@ CREATE TABLE PORTFOLIO (
     CONSTRAINT FK_RM_ID FOREIGN KEY(RM_ID) REFERENCES RECRUIT_MEMBER(RM_ID)
 );
 
-COMMENT ON COLUMN PORTFOLIO.P_NO IS '첨부파일번호';
+--COMMENT ON COLUMN PORTFOLIO.P_NO IS '첨부파일번호';
+COMMENT ON COLUMN PORTFOLIO.P_NO IS '포트폴리오번호';
 COMMENT ON COLUMN PORTFOLIO.FILE_NO IS '파일번호';
 COMMENT ON COLUMN PORTFOLIO.RM_ID IS '지원자번호';
 
@@ -154,6 +155,7 @@ CREATE SEQUENCE SEQ_RM_NO;
 CREATE SEQUENCE SEQ_RS_NO;
 CREATE SEQUENCE SEQ_P_NO;
 CREATE SEQUENCE SEQ_R_ID;
+CREATE SEQUENCE SEQ_AT_NO;
 
 -- 시퀀스 이름 NO -> ID로 변경
 RENAME SEQ_RS_NO TO SEQ_RS_ID;
@@ -183,11 +185,12 @@ SELECT * FROM PRODUCT_COMPONENT_VERSION;
 
 -- DML 작성 --------------------------------------------------------------------
 
--- 공고 등록 insertRecruitment
+-- 공고 등록
 INSERT INTO RECRUITMENT VALUES 
 ('title', 'code', SYSDATE, SYSDATE, 'time', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', SEQ_R_ID.NEXTVAL);
 
--- INSERT INTO RECRUITMENT VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, SEQ_R_ID.NEXTVAL);
+-- insertRecruitment
+-- INSERT INTO RECRUITMENT VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, SEQ_R_ID.NEXTVAL)
 
 SELECT * FROM RECRUITMENT;
 DELETE FROM RECRUITMENT;
@@ -198,6 +201,9 @@ CREATE SEQUENCE SEQ_R_ID;
 INSERT INTO RECRUIT_MEMBER VALUES
 (SEQ_RM_ID.NEXTVAL, 'name', 'phone', 'education', 'career', 'email', 'password');
 
+-- insertRecruitMemeber
+-- INSERT INTO RECRUIT_MEMBER VALUES (SEQ_RM_ID.NEXTVAL, ?, ?, ?, ?, ?, ?)
+
 SELECT * FROM RECRUIT_MEMBER;
 
 DELETE FROM RECRUIT_MEMBER;
@@ -205,10 +211,68 @@ DROP SEQUENCE SEQ_RM_ID;
 CREATE SEQUENCE SEQ_RM_ID;
 
 -- 공고 지원자 첨부파일 추가
+INSERT INTO ATTACHMENT VALUES
+(SEQ_At_NO, 1, 'test.jpg', 'test.jpg', SYSDATE, 'path');
+
+SELECT * FROM ATTACHMENT;
+DELETE FROM ATTACHMENT;
+DROP SEQUENCE SEQ_AT_NO;
+CREATE SEQUENCE SEQ_AT_NO;
+
+-- insertAttachment
+-- INSERT INTO ATTACHMENT VALUES (SEQ_P_NO.NEXTVAL, ?, ?, ?, SYSDATE, ?)
+
+-- 포트폴리오에 첨부파일 추가
+INSERT INTO PORTFOLIO VALUES (SEQ_P_NO.NEXTVAL, 1 , 1);
+
+-- insertPortfolio
+-- INSERT INTO PORTFOLIO VALUES (SEQ_P_NO.NEXTVAL, ? , ?)
+
+SELECT * FROM PORTFOLIO;
+DELETE FROM PORTFOLIO;
+DROP SEQUENCE SEQ_P_NO;
+CREATE SEQUENCE SEQ_P_NO;
 
 -- 공고 조회
+
+-- selectRecruitment
+-- SELECT * FROM RECRUITMENT
+
 -- 공고 지원자 첨부파일 조회
+
+SELECT A.* 
+FROM Attachment A, Portfolio P
+WHERE 1=1
+AND P.FIlE_NO = A.FILE_NO
+AND P.RM_ID = 1;
+
+-- selectPortfolio
+-- SELECT A.* FROM Attachment A, Portfolio P WHERE P.FILE_NO = A.FILE_NO AND P.RM_ID = ?
 
 -- 추후 구현 필요한거
 -- 공고에 공고 지원자 등록
 -- 공고에 등록한 공고 지원자 조회
+
+---- DML query 정리 ------------------------------------------------
+
+----- Recruitment -----
+-- insertRecruitment
+-- INSERT INTO RECRUITMENT VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, SEQ_R_ID.NEXTVAL)
+
+-- selectRecruitment
+-- SELECT * FROM RECRUITMENT
+
+----- RecruitMember -----
+-- insertRecruitMemeber
+-- INSERT INTO RECRUIT_MEMBER VALUES (SEQ_RM_ID.NEXTVAL, ?, ?, ?, ?, ?, ?)
+
+----- Attachment -----
+-- insertAttachment
+-- INSERT INTO ATTACHMENT VALUES (SEQ_P_NO.NEXTVAL, ?, ?, ?, SYSDATE, ?)
+
+----- Portfolio -----
+-- insertPortfolio
+-- INSERT INTO PORTFOLIO VALUES (SEQ_P_NO.NEXTVAL, ? , ?)
+
+-- selectPortfolio
+-- SELECT A.* FROM Attachment A, Portfolio P WHERE P.FILE_NO = A.FILE_NO AND P.RM_ID = ?
