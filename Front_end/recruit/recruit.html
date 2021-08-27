@@ -369,6 +369,20 @@
 
                     <form id="recruit_create_form" action="recruitCreate.do">
 
+                        <!-- 공고 종류 일반 / 상시 -->
+                        <label>공고 종류</label>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="recruitTime" name="recruitTime" value="일반 채용">
+                                <label for="recruitTime" class="custom-control-label">일반 채용</label>
+                            </div>
+    
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="recruitTime2" name="recruitTime" value="상시 채용">
+                                <label for="recruitTime2" class="custom-control-label">상시 채용</label>
+                            </div>
+                        </div>
+
                         <!-- 공고 시작일 ~ 공고 종료일 달력 선택 -->
                         <!-- <form-group>
                                 <label for="recruitStartDate">공고 시작일</label>
