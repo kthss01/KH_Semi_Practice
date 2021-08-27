@@ -373,7 +373,7 @@
                         <label>공고 종류</label>
                         <div class="form-group">
                             <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" class="custom-control-input" id="recruitTime" name="recruitTime" value="일반 채용">
+                                <input type="radio" class="custom-control-input" id="recruitTime" name="recruitTime" value="일반 채용" checked>
                                 <label for="recruitTime" class="custom-control-label">일반 채용</label>
                             </div>
     
@@ -406,7 +406,7 @@
                         <div class="form-group">
                             <label for="recruitName">공고명</label>
                             <input form="recruit_create_form" type="text" class="form-control" id="recruitName"
-                                placeholder="내용을 입력해주세요">
+                                placeholder="내용을 입력해주세요" required>
                         </div>
 
                         <!-- 직무구분 -->
@@ -508,12 +508,23 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="toast" style="position: absolute; bottom: 0; right: 0;">
+                        <div class="toast-header">
+                            내용이 비어 있습니다. 채워 넣어주세요
+                        </div>
+                        <div class="toast-body">
+                            
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" form="recruit_create_form" class="btn btn-dark mx-auto">등록하기</button>
+                    <button id="recruitSubmitBtn" type="submit" form="recruit_create_form" class="btn btn-dark mx-auto">등록하기</button>
+
                 </div>
+
             </div>
         </div>
     </div>
@@ -523,6 +534,8 @@
         $(function () {
             const startDate = moment(); // 시작일
             const endDate = moment().add(30, 'day'); // 종료일 -> 현재 시간 + 30일
+            $('#recruitStartDate').val(startDate.format('YYYY-MM-DD'));
+            $('#recruitEndDate').val(endDate.format('YYYY-MM-DD'));
 
             $('#daterange span').html(startDate.format('YYYY-MM-DD') + ' ~ ' + endDate.format('YYYY-MM-DD'));
 
@@ -541,6 +554,45 @@
                 $('#daterange span').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format(
                     'YYYY-MM-DD'));
             });
+
+            $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+                //console.log(picker.startDate.format('YYYY-MM-DD'));
+                //console.log(picker.endDate.format('YYYY-MM-DD'));
+                const startDate = picker.startDate.format('YYYY-MM-DD');
+                const endDate = picker.endDate.format('YYYY-MM-DD');
+                $('#recruitStartDate').val(startDate);
+                $('#recruitEndDate').val(endDate);
+            });
+        });
+    </script>
+
+
+
+    <!-- required handle -->
+    <script>
+        $(function() {
+            $('#recruit_create_form').on("submit", function(e) {
+
+                let check = true;
+                let content = '';
+                $('.tab-content').find('textarea').each(function(index, item){
+                    if ($(item).val() === '') {
+                        //console.log($(item).parent().children('label').html());
+                        content += $(item).parent().children('label').text() + '<br>';
+                        check = false;
+                    }
+                });
+
+                if (!check) {
+                    $('.toast .toast-body').html(content);
+
+                    $('.toast').toast({delay: 2000});
+                    $('.toast').toast('show');
+                }
+                
+                //alert('test');
+                return false;
+            })
         });
     </script>
 </body>
