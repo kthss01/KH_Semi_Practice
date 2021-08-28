@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
+        <!-- bootstarp4 date range picker -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <!-- recruit custom css -->
     <link rel="stylesheet" href="../css/recruit_custom.css">
@@ -24,6 +28,10 @@
     <style>
         .popover {
             max-width: 80%;
+        }
+
+        article {
+            position: relative;
         }
     </style>
 </head>
@@ -106,6 +114,9 @@
     <section class="container my-5">
         <!-- 공고 내용 -->
         <article class="container border p-5">
+            <button class="btn btn-outline-dark btn-sm" style="position: absolute; top: 5px; right: 5px;" data-toggle="modal" data-target="#recruit_remove_modal">삭제</button>
+            <button class="btn btn-outline-dark btn-sm" style="position: absolute; top: 5px; right: 60px;" data-toggle="modal" data-target="#recruit_update_modal">수정</button>
+
             <div id="recruitDate" class="text-info text-right mb-3">
                 <!-- 공고 종류 -->
                 <span class="badge badge-info">일반채용</span>
@@ -394,6 +405,266 @@
             </div>
         </div>
     </div>
+
+    <!-- 공고 삭제 modal -->
+    <div class="modal fade" id="recruit_remove_modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">공고 삭제 확인</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    삭제하시겠습니까?
+                </div>
+
+                <div class="modal-footer">
+                    <a href="recruitDelete.do" class="btn btn-danger" data-dismiss="modal">삭제하기</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 공고 수정 modal -->
+    <div class="modal fade" id="recruit_update_modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">공고 등록</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                    <form id="recruit_update_form" action="recruitUpdate.do">
+
+                        <!-- 공고 종류 일반 / 상시 -->
+                        <label>공고 종류</label>
+                        <div class="form-group">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="recruitTime" name="recruitTime" value="일반 채용" checked>
+                                <label for="recruitTime" class="custom-control-label">일반 채용</label>
+                            </div>
+    
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="recruitTime2" name="recruitTime" value="상시 채용">
+                                <label for="recruitTime2" class="custom-control-label">상시 채용</label>
+                            </div>
+                        </div>
+
+                        <!-- 공고 시작일 ~ 공고 종료일 달력 선택 -->
+                        <!-- <form-group>
+                                <label for="recruitStartDate">공고 시작일</label>
+                                <input type="date" class="form-control" id="recruitStartDate">
+                                <label for="recruitEndDate">공고 종료일</label>
+                                <input type="date" class="form-control" id="recruitEndDate">
+                            </form-group> -->
+
+                        <!-- <input type="text" class="form-control" id="daterange" name="daterange"/> -->
+                        <div class="form-group">
+                            <label>공고기간</label>
+                            <div id="daterange" class="form-control">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span>
+                            </div>
+                        </div>
+                        <input form="recruit_update_form" type="hidden" id="recruitStartDate" name="recruitStartDate">
+                        <input form="recruit_update_form" type="hidden" id="recruitEndDate" name="recruitEndDate">
+
+                        <!-- 공고명 -->
+                        <div class="form-group">
+                            <label for="recruitName">공고명</label>
+                            <input form="recruit_update_form" type="text" class="form-control" id="recruitName"
+                                name="recruitName" placeholder="내용을 입력해주세요" required>
+                        </div>
+
+                        <!-- 직무구분 -->
+                        <!-- Custom Select Menu -->
+                        <label>직무구분</label>
+                        <select form="recruit_update_form" name="recruitCode" id="recruitCode" class="custom-select">
+                            <option value="개발직군">개발직군</option>
+                            <option value="신입">신입</option>
+                            <option value="경영지원">경영지원</option>
+                            <option value="신사업">신사업</option>
+                        </select>
+
+                    </form>
+
+                    <!-- Nav pills or tabs with Dropdown -->
+                    <ul class="nav nav-tabs mt-3" role="tablist">
+                        <li class="nav-item">
+                            <a href="#recruitContentTab1" data-toggle="tab"
+                                class="text-secondary nav-link active">소개</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#recruitContentTab2" data-toggle="tab" class="text-secondary nav-link">주요 업무</a>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">요구 사항</a>
+                            <div class="dropdown-menu">
+                                <a href="#recruitContentTab3" data-toggle="tab" class="text-secondary nav-link">자격
+                                    요건</a>
+                                <a href="#recruitContentTab4" data-toggle="tab" class="text-secondary nav-link">우대
+                                    사항</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a href="#" class="text-secondary nav-link dropdown-toggle" data-toggle="dropdown">혜택 및
+                                기타</a>
+                            <div class="dropdown-menu">
+                                <a href="#recruitContentTab5" data-toggle="tab" class="text-secondary nav-link">혜택 및
+                                    복지</a>
+                                <a href="#recruitContentTab6" data-toggle="tab" class="text-secondary nav-link">기타
+                                    사항</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-2">
+                        <div id="recruitContentTab1" class="container tab-pane active">
+                            <!-- 소개 -->
+                            <div class="form-group">
+                                <label for="recruitContent1">소개</label>
+                                <textarea form="recruit_update_form" name="recruitContent1" id="recruitContent1"
+                                    class="form-control" rows="10"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="recruitContentTab2" class="container tab-pane fade">
+                            <!-- 주요 업무 -->
+                            <div class="form-group">
+                                <label for="recruitContent2">주요 업무</label>
+                                <textarea form="recruit_update_form" name="recruitContent2" id="recruitContent2"
+                                    class="form-control" rows="10"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="recruitContentTab3" class="container tab-pane fade">
+                            <!-- 자격 요건 -->
+                            <div class="form-group">
+                                <label for="recruitContent3">자격 요건</label>
+                                <textarea form="recruit_update_form" name="recruitContent3" id="recruitContent3"
+                                    class="form-control" rows="10"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="recruitContentTab4" class="container tab-pane fade">
+                            <!-- 우대 사항 -->
+                            <div class="form-group">
+                                <label for="recruitContent4">우대 사항</label>
+                                <textarea form="recruit_update_form" name="recruitContent4" id="recruitContent4"
+                                    class="form-control" rows="10"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="recruitContentTab5" class="container tab-pane fade">
+                            <!-- 혜택 및 복지 -->
+                            <div class="form-group">
+                                <label for="recruitContent5">혜택 및 복지</label>
+                                <textarea form="recruit_update_form" name="recruitContent5" id="recruitContent5"
+                                    class="form-control" rows="10"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="recruitContentTab6" class="container tab-pane fade">
+                            <!-- 기타 사항 -->
+                            <div class="form-group">
+                                <label for="recruitContent6">기타 사항</label>
+                                <textarea form="recruit_update_form" name="recruitContent6" id="recruitContent6"
+                                    class="form-control" rows="10"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="toast" style="position: absolute; bottom: 0; right: 0;">
+                            <div class="toast-header">
+                                내용이 비어 있습니다. 채워 넣어주세요
+                            </div>
+                            <div class="toast-body">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button id="recruitSubmitBtn" type="submit" form="recruit_update_form" class="btn btn-dark mx-auto">수정하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Date Range Picker -->
+    <script>
+        $(function () {
+            const startDate = moment(); // 시작일
+            const endDate = moment().add(30, 'day'); // 종료일 -> 현재 시간 + 30일
+            $('#recruitStartDate').val(startDate.format('YYYY-MM-DD'));
+            $('#recruitEndDate').val(endDate.format('YYYY-MM-DD'));
+
+            $('#daterange span').html(startDate.format('YYYY-MM-DD') + ' ~ ' + endDate.format('YYYY-MM-DD'));
+
+            $('#daterange').daterangepicker({
+                //opens: 'right',
+                //drops: 'up',
+                startDate, // 시작일 설정
+                endDate // 종료일 설정
+            }, function (start, end) {
+                //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                const startDate = start.format('YYYY-MM-DD');
+                const endDate = end.format('YYYY-MM-DD');
+                $('#recruitStartDate').val(startDate);
+                $('#recruitEndDate').val(endDate);
+
+                $('#daterange span').html(start.format('YYYY-MM-DD') + ' ~ ' + end.format(
+                    'YYYY-MM-DD'));
+            });
+
+            $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+                //console.log(picker.startDate.format('YYYY-MM-DD'));
+                //console.log(picker.endDate.format('YYYY-MM-DD'));
+                const startDate = picker.startDate.format('YYYY-MM-DD');
+                const endDate = picker.endDate.format('YYYY-MM-DD');
+                $('#recruitStartDate').val(startDate);
+                $('#recruitEndDate').val(endDate);
+            });
+        });
+    </script>
+
+    <!-- form content check -->
+    <!-- toast 사용 -->
+    <script>
+        $(function() {
+            $('#recruit_update_form').on("submit", function(e) {
+
+                let check = true;
+                let content = '';
+                $('.tab-content').find('textarea').each(function(index, item){
+                    if ($(item).val() === '') {
+                        //console.log($(item).parent().children('label').html());
+                        content += $(item).parent().children('label').text() + '<br>';
+                        check = false;
+                    }
+                });
+
+                if (!check) {
+                    $('.toast .toast-body').html(content);
+
+                    $('.toast').toast({delay: 2000});
+                    $('.toast').toast('show');
+                }
+                
+                return check;
+            })
+        });
+    </script>
 
     <!-- 개인정보 수집 및 이용수칙 내용 popover -->
     <script>
