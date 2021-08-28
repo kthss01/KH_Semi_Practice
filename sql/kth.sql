@@ -52,6 +52,10 @@ COMMENT ON COLUMN RECRUITMENT.R_ID IS '공고번호';
 -- 공고 테이블 컬럼 순서 변경 -> 안하기로 함 
 ALTER TABLE RECRUITMENT2 RENAME TO RECRUITMENT;
 
+-- 직무구분 PK 추가
+ALTER TABLE RECRUITMENT
+ADD CONSTRAINT FK_R_CODE FOREIGN KEY(R_CODE) REFERENCES RECRUITCODE(R_CODE);
+
 -- RecruitMember Table ---------------------------------------------------------
 CREATE TABLE RECRUIT_MEMBER (
     RM_ID NUMBER PRIMARY KEY,
@@ -151,6 +155,19 @@ COMMENT ON COLUMN PORTFOLIO.P_NO IS '포트폴리오번호';
 COMMENT ON COLUMN PORTFOLIO.FILE_NO IS '파일번호';
 COMMENT ON COLUMN PORTFOLIO.RM_ID IS '지원자번호';
 
+
+-- 공고 종류 테이블 R_CODE에 대한 테이블
+-- RecruitCode Table -------------------------------------------------------
+
+CREATE TABLE RECRUITCODE (
+    R_CODE VARCHAR(30) PRIMARY KEY
+);
+
+COMMENT ON COLUMN RECRUITCODE.R_CODE IS '직무구분';
+
+INSERT INTO RECRUITCODE VALUES ('신입');
+INSERT INTO RECRUITCODE VALUES ('개발직군');
+
 CREATE SEQUENCE SEQ_RM_NO;
 CREATE SEQUENCE SEQ_RS_NO;
 CREATE SEQUENCE SEQ_P_NO;
@@ -235,9 +252,6 @@ CREATE SEQUENCE SEQ_P_NO;
 
 -- 공고 조회
 
--- selectRecruitment
--- SELECT * FROM RECRUITMENT
-
 -- 공고 리스트 조회
 -- 가장 최근 기준으로 일정 갯수만
 SELECT * FROM (SELECT ROWNUM, A.* FROM RECRUITMENT A ORDER BY R_ID DESC) WHERE ROWNUM BETWEEN 1 AND 5;
@@ -259,6 +273,26 @@ AND P.RM_ID = 1;
 -- 추후 구현 필요한거
 -- 공고에 공고 지원자 등록
 -- 공고에 등록한 공고 지원자 조회
+
+-- 공고 CODE 추가
+INSERT INTO RECRUITCODE VALUES ('마케팅');
+INSERT INTO RECRUITCODE VALUES ('광고사업');
+-- insertRecruitCode
+-- INSERT INTO RECRUITCODE VALUES (?)
+
+-- 공고 CODE 조회
+SELECT * FROM RECRUITCODE;
+-- selectRecruitCode
+-- SELECT * FROM RECRUITCODE
+
+-- 공고 CODE 조회 및 그룹별 갯수
+SELECT A.R_CODE R_CODE, COUNT(*) COUNT
+FROM RECRUITCODE A, RECRUITMENT B 
+WHERE A.R_CODE = B.R_CODE
+GROUP BY A.R_CODE;
+
+-- selectRecruitCodeWithCount
+-- SELECT A.R_CODE, COUNT(*) FROM RECRUITCODE A, RECRUITMENT B WHERE A.R_CODE = B.R_CODE GROUP BY A.R_CODE
 
 ---- DML query 정리 ------------------------------------------------
 
@@ -291,3 +325,10 @@ SELECT COUNT(*) FROM RECRUITMENT;
 
 -- selectPortfolio
 -- SELECT A.* FROM Attachment A, Portfolio P WHERE P.FILE_NO = A.FILE_NO AND P.RM_ID = ?
+
+----- RecruitCode -----
+-- insertRecruitCode
+-- INSERT INTO RECRUITCODE VALUES (?)
+
+-- selectRecruitCode
+-- SELECT A.R_CODE R_CODE, COUNT(*) COUNT FROM RECRUITCODE A, RECRUITMENT B WHERE A.R_CODE = B.R_CODE GROUP BY A.R_CODE
