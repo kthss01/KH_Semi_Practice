@@ -2,6 +2,37 @@ CREATE USER KH_SEMI IDENTIFIED BY KH_SEMI; -- 공용 계정 생성
 GRANT RESOURCE, CONNECT TO KH_SEMI; -- 권한 설정
 GRANT CREATE VIEW TO KH_SEMI; -- View 권한 추가 설정
 
+-- session을 늘리면 연결 문제가 해결될까 싶어서 크게 늘려봄
+-- sessions, processes 현재 사용중인 수
+SELECT * from v$resource_limit where resource_name in ('processes', 'sessions', 'transactions');
+
+SELECT 
+    a.sid, -- SID 
+    a.serial#, -- 시리얼번호 
+    a.status, -- 상태정보 
+    a.process, -- 프로세스정보 
+    a.username, -- 유저 
+    a.osuser, -- 접속자의 OS 사용자 정보 
+    b.sql_text, -- sql 
+    c.program -- 접속 프로그램 
+FROM v$session a, v$sqlarea b, v$process c 
+WHERE a.sql_hash_value=b.hash_value AND a.sql_address=b.address AND a.paddr=c.addr AND a.status='ACTIVE';
+
+ALTER SYSTEM KILL SESSION '21, 9';
+
+ALTER SYSTEM SET processes = 1000 scope=spfile; 
+-- 변경할 processes의 값을 넣어주면됨. 
+-- 변경후 db 재시작 한다음 processes , sessions수 확인
+
+SELECT a.osuser
+               ,a.SID
+               ,a.serial#
+               ,a.status
+               ,b.sql_text
+  FROM v$session a
+              ,v$sqlarea b
+WHERE a.sql_address = b.address;
+
 -- Recruit Part DB 구축 -------------------------------------------------------
 ------------------------------------------------------------------------------
 
@@ -81,6 +112,9 @@ ALTER TABLE RECRUIT_MEMBER
 MODIFY (RM_NAME NOT NULL, RM_PHONE NOT NULL, RM_EDUCATION NOT NULL, 
 RM_CAREER NOT NULL, RM_EMAIL NOT NULL, RM_PASSWORD NOT NULL);
 
+ALTER TABLE RECRUIT_MEMBER
+MODIFY RM_PASSWORD NULL;
+
 -- RecruitStatus Table ---------------------------------------------------------
 DROP TABLE RECRUIT_STATUS;
 
@@ -121,6 +155,15 @@ ADD CONSTRAINT FK_R_ID FOREIGN KEY(R_ID) REFERENCES RECRUITMENT(R_ID);
 
 COMMENT ON COLUMN RECRUIT_STATUS.R_ID IS '공고번호';
 
+-- 수정사항2 RECRUIT_STATUS 지원상태 제거, 지원날짜 추가
+ALTER TABLE RECRUIT_STATUS
+DROP COLUMN RS_STATE;
+
+ALTER TABLE RECRUIT_STATUS
+ADD RS_DATE DATE;
+
+COMMENT ON COLUMN RECRUIT_STATUS.RS_DATE IS '지원날짜';
+
 -- Attachment Table ---------------------------------------------------------
 CREATE TABLE ATTACHMENT (
     FILE_NO NUMBER PRIMARY KEY,
@@ -137,6 +180,24 @@ COMMENT ON COLUMN ATTACHMENT.ORIGIN_NAME IS '파일원본명';
 COMMENT ON COLUMN ATTACHMENT.CHANGE_NAME IS '파일수정명';
 COMMENT ON COLUMN ATTACHMENT.UPLOAD_DATE IS '업로드일';
 COMMENT ON COLUMN ATTACHMENT.FILE_PATH IS '저장폴더경로';
+
+ALTER TABLE ATTACHMENT
+ADD CONSTRAINT FK_REF_NO FOREIGN KEY(REF_NO) REFERENCES ATTACHMENT_REFERENCE(REF_NO);
+
+
+-- Attachment Reference Table ----------------------------------------------
+CREATE TABLE ATTACHMENT_REFERENCE (
+    REF_NO NUMBER PRIMARY KEY,
+    REF_NAME VARCHAR(20)
+);
+
+COMMENT ON COLUMN ATTACHMENT_REFERENCE.REF_NO IS '참조파트번호';
+COMMENT ON COLUMN ATTACHMENT_REFERENCE.REF_NAME IS '참조파트이름';
+
+INSERT INTO ATTACHMENT_REFERENCE VALUES (1, '공고');
+INSERT INTO ATTACHMENT_REFERENCE VALUES (2, '강의');
+INSERT INTO ATTACHMENT_REFERENCE VALUES (3, '펀딩');
+INSERT INTO ATTACHMENT_REFERENCE VALUES (4, '회원');
 
 
 -- Portfolio Table ---------------------------------------------------------
@@ -167,6 +228,9 @@ COMMENT ON COLUMN RECRUITCODE.R_CODE IS '직무구분';
 
 INSERT INTO RECRUITCODE VALUES ('신입');
 INSERT INTO RECRUITCODE VALUES ('개발직군');
+
+-- RecruitCode 테이블명 Recruit_code로 변경
+ALTER TABLE RECRUITCODE RENAME TO RECRUIT_CODE;
 
 CREATE SEQUENCE SEQ_RM_NO;
 CREATE SEQUENCE SEQ_RS_NO;
@@ -209,6 +273,37 @@ INSERT INTO RECRUITMENT VALUES
 -- insertRecruitment
 -- INSERT INTO RECRUITMENT VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, SEQ_R_ID.NEXTVAL)
 
+-- 공고 수정
+UPDATE RECRUITMENT 
+SET 
+    R_TITLE = '공고 수정 테스트',
+    R_CODE = '신입',
+    R_START = SYSDATE-5,
+    R_END = SYSDATE,
+    R_TIME = '상시 채용',
+    R_CONTENT1 = '공고 수정1',
+    R_CONTENT2 = '공고 수정2',
+    R_CONTENT3 = '공고 수정3',
+    R_CONTENT4 = '공고 수정4',
+    R_CONTENT5 = '공고 수정5',
+    R_CONTENT6 = '공고 수정6'
+WHERE R_ID = 9;
+
+-- updateRecruitment
+-- UPDATE RECRUITMENT SET R_TITLE = ?, R_CODE = ?, R_START = ?, R_END = ?, R_TIME = ?, R_CONTENT1 = ?, R_CONTENT2 = ?, R_CONTENT3 = ?, R_CONTENT4 = ?, R_CONTENT5 = ?, R_CONTENT6 = ? WHERE R_ID = ?;
+
+-- 공고 삭제
+DELETE FROM RECRUITMENT WHERE R_ID = 8;
+
+-- deleteRecruitment
+-- DELETE FROM RECRUITMENT WHERE R_ID = ?
+
+-- 공고명 조회
+SELECT R_TITLE FROM RECRUITMENT;
+
+-- 공고명으로 공고 찾기 (동일한 공고명일 경우 R_ID가 가장 큰걸로)
+SELECT * FROM RECRUITMENT WHERE R_ID = (SELECT MAX(R_ID) FROM RECRUITMENT WHERE R_TITLE='test1' GROUP BY R_TITLE);
+
 SELECT * FROM RECRUITMENT;
 DELETE FROM RECRUITMENT;
 DROP SEQUENCE SEQ_R_ID;
@@ -220,6 +315,12 @@ INSERT INTO RECRUIT_MEMBER VALUES
 
 -- insertRecruitMemeber
 -- INSERT INTO RECRUIT_MEMBER VALUES (SEQ_RM_ID.NEXTVAL, ?, ?, ?, ?, ?, ?)
+
+-- findRecruitMemberWithEmail
+-- SELECT * FROM RECRUIT_MEMBER WHERE RM_EMAIL=?
+
+-- insertRecruitStatus
+-- INSERT INTO RECRUIT_STATUS VALUES (SEQ_RS_ID.NEXTVAL, ?, ?, SYSDATE)
 
 SELECT * FROM RECRUIT_MEMBER;
 
@@ -237,7 +338,10 @@ DROP SEQUENCE SEQ_AT_NO;
 CREATE SEQUENCE SEQ_AT_NO;
 
 -- insertAttachment
--- INSERT INTO ATTACHMENT VALUES (SEQ_P_NO.NEXTVAL, ?, ?, ?, SYSDATE, ?)
+-- INSERT INTO ATTACHMENT VALUES (SEQ_P_NO.NEXTVAL, 1, ?, ?, SYSDATE, ?)
+
+-- findAttachmentWithOriginName
+-- SELECT * FROM ATTACHMENT WHERE ORIGIN_NAME = ?
 
 -- 포트폴리오에 첨부파일 추가
 INSERT INTO PORTFOLIO VALUES (SEQ_P_NO.NEXTVAL, 1 , 1);
@@ -281,18 +385,18 @@ INSERT INTO RECRUITCODE VALUES ('광고사업');
 -- INSERT INTO RECRUITCODE VALUES (?)
 
 -- 공고 CODE 조회
-SELECT * FROM RECRUITCODE;
+SELECT * FROM RECRUIT_CODE;
 -- selectRecruitCode
--- SELECT * FROM RECRUITCODE
+-- SELECT * FROM RECRUIT_CODE
 
 -- 공고 CODE 조회 및 그룹별 갯수
 SELECT A.R_CODE R_CODE, COUNT(*) COUNT
-FROM RECRUITCODE A, RECRUITMENT B 
+FROM RECRUIT_CODE A, RECRUITMENT B 
 WHERE A.R_CODE = B.R_CODE
 GROUP BY A.R_CODE;
 
 -- selectRecruitCodeWithCount
--- SELECT A.R_CODE, COUNT(*) FROM RECRUITCODE A, RECRUITMENT B WHERE A.R_CODE = B.R_CODE GROUP BY A.R_CODE
+-- SELECT A.R_CODE, COUNT(*) FROM RECRUIT_CODE A, RECRUITMENT B WHERE A.R_CODE = B.R_CODE GROUP BY A.R_CODE
 
 ---- DML query 정리 ------------------------------------------------
 
@@ -311,24 +415,64 @@ SELECT * FROM (SELECT ROWNUM RNUM, A.* FROM RECRUITMENT A ORDER BY R_ID DESC) WH
 -- getListCount
 SELECT COUNT(*) FROM RECRUITMENT;
 
+-- updateRecruitment
+UPDATE RECRUITMENT 
+SET 
+    R_TITLE = '공고 수정 테스트',
+    R_CODE = '신입',
+    R_START = SYSDATE-5,
+    R_END = SYSDATE,
+    R_TIME = '상시 채용',
+    R_CONTENT1 = '공고 수정1',
+    R_CONTENT2 = '공고 수정2',
+    R_CONTENT3 = '공고 수정3',
+    R_CONTENT4 = '공고 수정4',
+    R_CONTENT5 = '공고 수정5',
+    R_CONTENT6 = '공고 수정6'
+WHERE R_ID = 9;
+
+-- updateRecruitment
+-- UPDATE RECRUITMENT SET R_TITLE = ?, R_CODE = ?, R_START = ?, R_END = ?, R_TIME = ?, R_CONTENT1 = ?, R_CONTENT2 = ?, R_CONTENT3 = ?, R_CONTENT4 = ?, R_CONTENT5 = ?, R_CONTENT6 = ? WHERE R_ID = ?
+
+-- deleteRecruitment
+-- DELETE FROM RECRUITMENT WHERE R_ID = ?
+
+-- 공고명 조회
+SELECT R_TITLE FROM RECRUITMENT;
+-- selectAllTitle
+-- SELECT R_TITLE FROM RECRUITMENT
+
+
+-- 공고명으로 공고 찾기 (동일한 공고명일 경우 R_ID가 가장 큰걸로)
+SELECT * FROM RECRUITMENT WHERE R_ID = (SELECT MAX(R_ID) FROM RECRUITMENT WHERE R_TITLE='test1' GROUP BY R_TITLE);
+
+-- findRecruitmentWithTitle
+-- SELECT * FROM RECRUITMENT WHERE R_ID = (SELECT MAX(R_ID) FROM RECRUITMENT WHERE R_TITLE=? GROUP BY R_TITLE)
+
 ----- RecruitMember -----
--- insertRecruitMemeber
--- INSERT INTO RECRUIT_MEMBER VALUES (SEQ_RM_ID.NEXTVAL, ?, ?, ?, ?, ?, ?)
+-- insertRecruitMember
+-- INSERT INTO RECRUIT_MEMBER VALUES (SEQ_RM_ID.NEXTVAL, ?, ?, ?, ?, ?)
+
+-- insertRecruitStatus
+-- INSERT INTO RECRUIT_STATUS VALUES (SEQ_RS_ID.NEXTVAL, ?, ?, SYSDATE)
 
 ----- Attachment -----
 -- insertAttachment
--- INSERT INTO ATTACHMENT VALUES (SEQ_P_NO.NEXTVAL, ?, ?, ?, SYSDATE, ?)
+-- INSERT INTO ATTACHMENT VALUES (SEQ_P_NO.NEXTVAL, ?, ?, ?, SYSDATE, ?, ?)
+
+-- findAttachmentWithOriginName
+-- SELECT * FROM ATTACHMENT WHERE ORIGIN_NAME = ?
 
 ----- Portfolio -----
 -- insertPortfolio
--- INSERT INTO PORTFOLIO VALUES (SEQ_P_NO.NEXTVAL, ? , ?)
+-- INSERT INTO PORTFOLIO VALUES (SEQ_P_NO.NEXTVAL, ?, ?)
 
 -- selectPortfolio
 -- SELECT A.* FROM Attachment A, Portfolio P WHERE P.FILE_NO = A.FILE_NO AND P.RM_ID = ?
 
 ----- RecruitCode -----
 -- insertRecruitCode
--- INSERT INTO RECRUITCODE VALUES (?)
+-- INSERT INTO RECRUIT_CODE VALUES (?)
 
 -- selectRecruitCode
--- SELECT A.R_CODE R_CODE, COUNT(*) COUNT FROM RECRUITCODE A, RECRUITMENT B WHERE A.R_CODE = B.R_CODE GROUP BY A.R_CODE
+-- SELECT A.R_CODE R_CODE, COUNT(*) COUNT FROM RECRUIT_CODE A, RECRUITMENT B WHERE A.R_CODE = B.R_CODE GROUP BY A.R_CODE
