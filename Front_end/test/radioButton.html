@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>radioButton test</title>
+
+    <!-- bootstrap 4 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+                #recruit_category button {
+            margin: 0.1rem;
+            border-radius: 5rem;
+        }
+    </style>
+    
+</head>
+<body>
+    
+    <div class="container">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active rounded-pill m-2">
+              <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+            </label>
+            <label class="btn btn-secondary rounded-pill m-2">
+              <input type="radio" name="options" id="option2" autocomplete="off"> Radio
+            </label>
+            <label class="btn btn-secondary rounded-pill m-2">
+              <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+            </label>
+            <label class="btn btn-secondary rounded-pill m-2">
+                <span class="spinner-border spinner-border-sm"></span>
+                <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+            </label>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="recruit_category" class="btn-group">
+            <button type="button" class="btn btn-secondary">
+                #전체
+                <span class="badge badge-light">49</span>
+            </button>
+            <button type="button" class="btn btn-secondary">
+                #개발직군
+                <span class="badge badge-light">14</span>
+            </button>
+            <button type="button" class="btn btn-secondary">
+                #마케팅
+                <span class="badge badge-light">5</span>
+            </button>
+            <button type="button" class="btn btn-secondary">
+                #경영지원
+                <span class="badge badge-light">6</span>
+            </button>
+            <button type="button" class="btn btn-secondary">
+                #신사업
+                <span class="badge badge-light">2</span>
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
