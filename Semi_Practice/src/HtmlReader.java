@@ -27,7 +27,28 @@ public class HtmlReader {
 		
 //		readFileEx();
 		
-		readFileHtml();
+//		readFileHtml();
+		
+		editFileHtml();
+	}
+
+	private static void editFileHtml() {
+		try {
+			byte[] bytes = Files.readAllBytes(Paths.get("emailPage.html"));
+			
+			String html = new String(bytes).replace("{name}", "김태훈")           
+			                               .replace("{title}", "백엔드 개발")       
+			                               .replace("{phone}", "010-1234-5678")
+					                       .replace("{email}", "kh@kh.kr")     
+					                       .replace("{education}", "대졸")       
+					                       .replace("{career}", "신입")
+					                       .replace("{image}", "image.png");
+			
+			System.out.println(html);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void readFileHtml() {

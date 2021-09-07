@@ -1,55 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이메일로 보낸 이력서 페이지</title>
-
-    <!-- bootstrap 4 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+    <title>이메일 페이지</title>
 </head>
 <body>
-    <!-- <form>
-        <legend>이력서</legend>
-        <label>이름 : <input type="text" value="김태훈" readonly></label> <br>
-        <label>연락처 : <input type="text" value="연락처" readonly></label> <br>
-        <label>이메일 : <input type="text" value="이메일" readonly></label> <br>
-        <label>학력사항 : <input type="text" value="학력사항" readonly></label> <br>
-        <label>경력사항 : <input type="text" value="경력사항" readonly></label> <br>
-    </form> -->
+    <div class="container" style="margin: 0 auto; width: 600px; border-radius: 15px; background-color: rgb(240, 240, 240); position: relative;">
+        <fieldset style="width: 500px; margin: 0 auto; background-color: rgba(255, 255, 255, 0.6);">
+            <legend style="text-align: center"><h2>CROWD FUNDING</h2></legend>
+            <div style="text-align: center;">
+                CROWD FUNDING에 입사 지원을 해주셔서 감사합니다. <br>
+                빠른 시일 내로 결과를 안내해드리도록 하겠습니다.
+            </div>
 
-    <div class="container">
-
-        <div class="card" style="width: 400px;">
-            <div class="card-header">
-                <h4 class="card-title">CROWD FUNDING 이력서</h4>
+            <div style="text-align: center; margin: 10px 0;">
+                <img src="{image}" alt="image" width="300px;" height="400px;">
             </div>
-            <img src="../resources/img_avatar1.png" class="card-img-top">
-            <div class="card-body">
-                <h4 class="card-title">김태훈</h4>
-                <p class="card-text">
-                    연락처 : 010-1234-5678
-                </p>
-                <p class="card-text">
-                    이메일 : 123@kh.com
-                </p>
-                <p class="card-text">
-                    학력사항 : 대졸
-                </p>
-                <p class="card-text">
-                    경력사항 : 신입
-                </p>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="btn btn-primary">수정하기</a>
-            </div>
+        </fieldset>
+        <fieldset style="width: 500px; margin: 0 auto; background-color: rgba(255, 255, 255, 0.9);">
+            <legend style="background-color: rgba(255, 255, 255, 0.2); border-radius: 15px;"><h3>{name} 지원자님 이력서</h3></legend>
+            <div><h4 style="margin: 15px;">지원포지션 : {title}</h4></div>
+            <div><h4 style="margin: 15px;">연락처 : {phone}</h4></div>
+            <div><h4 style="margin: 15px;">이메일 : {email}</h4></div>
+            <div><h4 style="margin: 15px;">학력사항 : {education}</h4></div>
+            <div><h4 style="margin: 15px;">경력사항 : {career}</h4></div>
+        </fieldset>
+        <div style="float: right; margin-right: 30px;">
+            <button style="height: 40px; margin: 10px; border-radius: 5px; color: white; background-color:rgba(0, 0, 0, 0.5); font-weight: bold;">지원서 수정하기</button>
         </div>
-
+        <div style="clear: both;"></div>
     </div>
 </body>
 </html>
