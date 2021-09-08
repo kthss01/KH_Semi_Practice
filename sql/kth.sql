@@ -354,6 +354,9 @@ DELETE FROM PORTFOLIO;
 DROP SEQUENCE SEQ_P_NO;
 CREATE SEQUENCE SEQ_P_NO;
 
+-- 공고 지원 조회 아직 미구현 이메일과 비밀번호 받아서 처리해야함
+SELECT * FROM RECRUIT_MEMBER WHERE RM_EMAIL = 
+
 -- 공고 조회
 
 -- 공고 리스트 조회
