@@ -2,6 +2,7 @@
 from selenium import webdriver
 
 import time
+import copy
 
 # USB 관련 에러 처리
 options = webdriver.ChromeOptions()
@@ -17,50 +18,106 @@ time.sleep(2)
 
 # 직무 코드 scraping
 codes = driver.find_elements_by_css_selector('a.fake-menu')
-# for code in codes:
-#     print(code.text)
-#############################################################
+
+##############################
+
+recruit_list = []
+recruit_dict = {
+    'title' : '공고명',
+    'code' : '직무구분',
+    
+    'date' : '공고기간',
+    'start' : '공고시작일',
+    'end' : '공고종료일',
+    
+    'time' : '공고종류',
+    
+    'content1' : '공고소개',
+    'content2' : '주요업무',
+    'content3' : '자격요건',
+    'content4' : '우대사항',
+    'content5' : '혜택및복지',
+    'content6' : '기타사항',
+}
 
 # 공고 처리
 
 # 공고 페이지네이션 접근
 paging = driver.find_elements_by_css_selector('div.paging a.page-number')
-# for page in paging:
-#     print(page.text)
-
-
-# 3번째에서 안됨 뭐가 문제인지 모르겠음
-# for page in paging:
-#     print(page)
-    # page.click()
-    # time.sleep(1)
-
-# 이것도 안됨
-# plen = print(len(paging))
-#driver.execute_script("pager.goPage(2)")
 
 plen = len(paging)
-
-# 매 클릭마다 다시 찾는걸로 변경
+# 매 클릭마다 찾아야 문제 안생김
 for i in range(plen):
     paging = driver.find_elements_by_css_selector('div.paging a.page-number')
     paging[i].click()
     time.sleep(2)
+    
+    # 각 공고 접근
+    bbs_item = driver.find_elements_by_css_selector('li.bbs-item')
+    bbslen = len(bbs_item)
+    for j in range(bbslen):
+        recruit = copy.deepcopy(recruit_dict)
+        
+        recruit['code'] = bbs_item[j].find_element_by_css_selector('span.col-sub-title').text
+        recruit['title'] = bbs_item[j].find_element_by_css_selector('span.col-title').text
+        recruit['time'] = bbs_item[j].find_element_by_css_selector('a.col-flag').text
+        recruit['date'] = bbs_item[j].find_element_by_css_selector('span.col-span').text
+        
+        print(recruit['title'])
+        
+        bbs = bbs_item[j].find_element_by_css_selector('a')
+        bbs.click()
+        time.sleep(2)
+        
+        # 구조가 너무 달라서 넘김 수작업 가자
+        if '상시 인재 Pool 등록' in recruit['title']:
+            driver.back() # 뒤로가기
+            continue
+        if '심사/심의' in recruit['title']:
+            driver.back() # 뒤로가기
+            continue
+        if '펀딩 영업 PD' in recruit['title']:
+            driver.back() # 뒤로가기
+            continue
+        
+        # 각 공고 페이지 내용 접근
+        contents = driver.find_elements_by_css_selector('div.detail-content p')
+        
+        temp = ''
+        for content in contents:
+            temp += content.text
 
-# 각 공고 접근
-bbs_item = driver.find_elements_by_css_selector('li.bbs-item')
-# for bbs in bbs_item:
-#     print(bbs.text)
-# 공고 클릭하기
-bbs = bbs_item[0].find_element_by_css_selector('a')
-# print(bbs.text)
-# bbs.click()
+        # 문자열 처리
+        # print(temp)
+        if len(temp.split('[')) == 5:
+            c1, c2, c3, c4, c5 = temp.split('[')
+            c6 = c5[c5.find('**기타 사항')+len('**기타 사항'):]
+            c5 = c5[c5.find(']')+1:c5.find('**')-1]
+        else:
+            c1, c2, c3, c4, c5, c6 = temp.split('[')
+            c5 = c5[c5.find(']')+1:]
+            c6 = c6[c6.find(']')+1:]
+            
+        c1 = c1[c1.find(']')+1:]
+        c2 = c2[c2.find(']')+1:]
+        c3 = c3[c3.find(']')+1:]
+        c4 = c4[c4.find(']')+1:]
+        # print(c1)
+        # print(c2)
+        # print(c3)
+        # print(c4)
+        # print(c5)
+        # print(c6)
 
-# 각 공고 페이지 내용 접근
-contents = driver.find_elements_by_css_selector('div.detail-content p')
-# for content in contents:
-#     print(content.text)
-
-
-
-# driver.close()
+        recruit['content1'] = c1
+        recruit['content2'] = c2
+        recruit['content3'] = c3
+        recruit['content4'] = c4
+        recruit['content5'] = c5
+        recruit['content6'] = c6
+                
+        print(recruit)
+        recruit_list.append(recruit)
+        
+        driver.back() # 뒤로가기
+        time.sleep(2)
