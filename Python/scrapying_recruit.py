@@ -46,6 +46,7 @@ recruit_dict = {
 paging = driver.find_elements_by_css_selector('div.paging a.page-number')
 
 plen = len(paging)
+#plen = 1 # test
 # 매 클릭마다 찾아야 문제 안생김
 for i in range(plen):
     paging = driver.find_elements_by_css_selector('div.paging a.page-number')
@@ -55,6 +56,7 @@ for i in range(plen):
     # 각 공고 접근
     bbs_item = driver.find_elements_by_css_selector('li.bbs-item')
     bbslen = len(bbs_item)
+    #bbslen = 1 # test
     for j in range(bbslen):
         recruit = copy.deepcopy(recruit_dict)
         
@@ -62,6 +64,12 @@ for i in range(plen):
         recruit['title'] = bbs_item[j].find_element_by_css_selector('span.col-title').text
         recruit['time'] = bbs_item[j].find_element_by_css_selector('a.col-flag').text
         recruit['date'] = bbs_item[j].find_element_by_css_selector('span.col-span').text
+        
+        recruit['code'] = recruit['code'][1:-1]
+        
+        start, end = recruit['date'].split('~')
+        recruit['start'] = start.strip()
+        recruit['end'] = end.strip()
         
         print(recruit['title'])
         
@@ -109,15 +117,52 @@ for i in range(plen):
         # print(c5)
         # print(c6)
 
-        recruit['content1'] = c1
-        recruit['content2'] = c2
-        recruit['content3'] = c3
-        recruit['content4'] = c4
-        recruit['content5'] = c5
-        recruit['content6'] = c6
+        recruit['content1'] = c1.strip()
+        recruit['content2'] = c2.strip()
+        recruit['content3'] = c3.strip()
+        recruit['content4'] = c4.strip()
+        recruit['content5'] = c5.strip()
+        recruit['content6'] = c6.strip()
                 
         print(recruit)
         recruit_list.append(recruit)
         
         driver.back() # 뒤로가기
         time.sleep(2)
+        
+################################
+
+# 엑셀 처리
+from openpyxl import Workbook
+
+wb = Workbook()
+
+# wb.remove_sheet(wb['Sheet']) # 기본 시트 자리인거 같음
+
+ws_code = wb.create_sheet('RECRUIT_CODE')
+ws_recruit = wb.create_sheet('RECRUITMENT')
+
+# codes 처리
+header = ['직무구분']
+
+row = 1
+col = 1
+
+ws_code.cell(row, col, header[0])
+
+for code in codes:
+    row += 1
+    ws_code.cell(row, col, code.text[1:code.text.find('(')])
+
+# recruit 처리
+header = ['공고명', '직무구분', '공고시작일', '공고종료일', '공고소개', '주요업무', '자격요건', '우대사항', '혜택및복지', '기타사항']
+
+ws_recruit.append(header)
+
+for r in recruit_list:
+    rList = [ r['title'], r['code'], r['start'], r['end'], r['content1'], r['content2'], r['content3'], r['content4'], r['content5'], r['content6'] ]
+    ws_recruit.append(rList)
+
+wb.save('recruit.xlsx')
+
+driver.close()
