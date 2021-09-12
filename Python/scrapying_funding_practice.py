@@ -21,13 +21,13 @@ time.sleep(2)
 # driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
 # lazy loading 먹이려면 일일히 내려가야함
-from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.common.keys import Keys
 
-repeat = 8
+# repeat = 8
 
-for _ in range(repeat * 5):
-    driver.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
-    time.sleep(1)
+# for _ in range(repeat * 5):
+#     driver.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
+#     time.sleep(1)
 
 ## codes
 # codes = driver.find_elements_by_css_selector('div.CategoryCircleList_list__2YBF3 a')
@@ -65,7 +65,7 @@ print(len(items))
 
 # # for item in items:
 
-# item = items[0]
+item = items[0]
 # # print(items)
 
 # ## thumbnail link
@@ -94,9 +94,11 @@ print(len(items))
 
 # #### detail page에서 처리
 # # detail project로 이동
-# clicker = item.find_element_by_css_selector('a.CardLink_link__1k83H')
-# # print(clicker.get_attribute('href'))
+clicker = item.find_element_by_css_selector('a.CardLink_link__1k83H')
+# print(clicker.get_attribute('href'))
 # driver.execute_script("arguments[0].click();", clicker)
+url = clicker.get_attribute('href')
+driver.get(url)
 
 # ## AMOUNT_GOAL
 # ## DDLN
