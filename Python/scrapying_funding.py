@@ -150,6 +150,7 @@ for project in projects:
     if not os.path.isdir(img_folder): # 폴더 없으면 폴더 생성
         os.mkdir(img_folder)
 
+    thumbnail = project['thumbnail_link']
     urlretrieve(thumbnail, f'{img_folder}/{project["proj_no"]}.jpg') 
     
     project['file_name'] = f'{project["proj_no"]}.jpg'
@@ -174,6 +175,7 @@ category_no = 1
 
 for code in code_list:
     ws_code.append([category_no, code])
+    category_no += 1
     
 # project 처리
 
