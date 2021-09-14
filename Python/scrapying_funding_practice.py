@@ -52,6 +52,53 @@ time.sleep(2)
     
 # print(code_list)
 
+import os
+
+# codes 이미지 다운받기
+code_list = []
+
+codes = driver.find_elements_by_css_selector('div.CategoryCircleList_list__2YBF3 a')
+
+for code in codes:
+    # print(code.text)
+    if code.text != '':
+        code_list.append(code)
+    
+# code next button 
+driver.find_element_by_css_selector('#main-app > div.MainWrapper_content__GZkTa > div > div.RewardCategoryCircleList_container__1GDge > div > button.CategoryCircleList_next__1mHyX').click()
+time.sleep(2)
+
+codes = driver.find_elements_by_css_selector('div.CategoryCircleList_list__2YBF3 a')
+
+for code in codes:
+    # print(code.text)
+    if code.text != '':
+        code_list.append(code)
+
+# for code in codes:
+# code = codes[0]
+# code_img = code.find_element_by_css_selector('span.CategoryCircle_circle__3khwj').get_attribute('style')
+# code_img = code_img[code_img.find("url(")+5:-3]
+# print(code_img)
+
+print(len(code_list))
+
+code_no = 1
+
+for code in code_list:   
+    code_img = code.find_element_by_css_selector('span.CategoryCircle_circle__3khwj').get_attribute('style')
+    code_img = code_img[code_img.find("url(")+5:-3]
+    
+    img_folder = './images/code'
+    if not os.path.isdir(img_folder): # 폴더 없으면 폴더 생성
+        os.mkdir(img_folder)
+
+    from urllib.request import urlretrieve
+
+    urlretrieve(code_img, f'{img_folder}/{code_no}.jpg') # 이름을 어떻게 할지 고민해봐야할듯
+    code_no += 1
+    
+
 #################################################################
 # proj_no = 1
 
@@ -59,13 +106,13 @@ time.sleep(2)
 # # DDLN, DELIVERY_CHARGE(배송료), SUPPORT_NUM, DETAIL_INTRO, CATEGORY_NO
 
 # # 각 파트 더 긁어오려면 lazy loading이므로 scroll 한번 내려봐야함
-items = driver.find_elements_by_css_selector('div.ProjectCardList_item__1owJa')
+# items = driver.find_elements_by_css_selector('div.ProjectCardList_item__1owJa')
 
-print(len(items))
+# print(len(items))
 
 # # for item in items:
 
-item = items[0]
+# item = items[0]
 # # print(items)
 
 # ## thumbnail link
@@ -94,11 +141,11 @@ item = items[0]
 
 # #### detail page에서 처리
 # # detail project로 이동
-clicker = item.find_element_by_css_selector('a.CardLink_link__1k83H')
+# clicker = item.find_element_by_css_selector('a.CardLink_link__1k83H')
 # print(clicker.get_attribute('href'))
 # driver.execute_script("arguments[0].click();", clicker)
-url = clicker.get_attribute('href')
-driver.get(url)
+# url = clicker.get_attribute('href')
+# driver.get(url)
 
 # ## AMOUNT_GOAL
 # ## DDLN
@@ -124,4 +171,4 @@ driver.get(url)
 # 되돌아오기
 #driver.back()
 
-# driver.close()
+driver.close()
