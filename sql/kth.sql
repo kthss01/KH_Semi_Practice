@@ -763,3 +763,11 @@ COMMENT ON COLUMN FAQ.SHOW_YN IS '게시여부';
 
 -- PROJECT 테이블 주석 수정
 COMMENT ON COLUMN PROJECT.PRICE IS '가격';
+
+
+------------------------------------------------------------------
+-- local DB에 계정 생성해서 넣기
+CREATE USER KH_SEMI IDENTIFIED BY KH_SEMI;
+GRANT RESOURCE, CONNECT TO KH_SEMI;
+GRANT CREATE VIEW TO KH_SEMI;
+GRANT CREATE SEQUENCE TO KH_SEMI;
